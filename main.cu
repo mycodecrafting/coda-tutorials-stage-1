@@ -160,40 +160,17 @@ int main(int argc, char* argv[]) {
 
     std::vector<uint8_t*> x0;
     for (size_t i = 0; i < n; ++i) {
-      if (i == 0) {
-        uint8_t* buf = (uint8_t*)calloc(bytes_per_elem, sizeof(uint8_t));
-        buf[2] = 1;
-        x0.emplace_back(buf);
-        read_mnt_fq(inputs);
-      } else {
-        x0.emplace_back(read_mnt_fq(inputs));
-      }
-      if (i == 0) {
-        print_array(x0.back());
-      }
+      x0.emplace_back(read_mnt_fq(inputs));
     }
 
     std::vector<uint8_t*> x1;
     for (size_t i = 0; i < n; ++i) {
-      if (i == 0) {
-        uint8_t* buf = (uint8_t*)calloc(bytes_per_elem, sizeof(uint8_t));
-        buf[2] = 1;
-        x1.emplace_back(buf);
-        read_mnt_fq(inputs);
-      } else {
-        x1.emplace_back(read_mnt_fq(inputs));
-      }
-      if (i == 0) {
-        print_array(x1.back());
-      }
+      x1.emplace_back(read_mnt_fq(inputs));
     }
 
     std::vector<uint8_t*> res_x = compute_product<bytes_per_elem, u64_fixnum, mul_and_convert>(x0, x1, mnt4_modulus);
 
     for (size_t i = 0; i < n; ++i) {
-      if (i == 0) {
-        print_array(res_x[i]);
-      }
       write_mnt_fq(res_x[i], outputs);
     }
 
@@ -221,7 +198,6 @@ int main(int argc, char* argv[]) {
       free(res_x[i]);
       free(res_y[i]);
     }
-
   }
 
   return 0;
